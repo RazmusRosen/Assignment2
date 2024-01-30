@@ -10,6 +10,9 @@ class Dice:
         self.diceValue = random.randint(1, 6)
         return self.diceValue
 
+    def getValue(self):
+        return self.diceValue
+
 
 class Player:
     def __init__(self):
@@ -51,6 +54,11 @@ class HighScore:
         else:
             with open(file, "w") as file:
                 file.write("High scores")
+    
+    def postHighScore(self, player1Points, player2Points):
+        highestScore = player1Points
+        if (player2Points > highestScore):
+            pass
 
 
 def main():
@@ -59,25 +67,42 @@ def main():
     dice = Dice()
     HighScore()
 
-    playing = True
-    while (playing):
+    player1Plays = True
+    player2Plays = True
+    
+    while (player1Plays):
         player1Points = player1.tossDice(dice)
         print("Player: " + player1.getPlayerName() + " got " + str(player1Points) + " point(s)")
+        if (player1Points != 0):
+            choice = input("Do you want to stay or toss? ")
+            if (choice == "toss"):
+                continue
+            else:
+                print("Okay you stayed with " + str(player1Points) + " point(s)")
+                player1Plays = False
+        else:
+            player1Plays = False
+            player2Points = player2.tossDice(dice)
+            print("Player: " + player2.getPlayerName() + " got " + str(player2Points) + " point(s)")
+            if (player2Points == 0):
+                print("It's a tie")
+                player2Plays = False
+
+    while (player2Plays):
+        player2Points = dice.getValue
         if (player1Points == 0):
-            print(player1.getPlayerName() + " lost")
-            break
-        
-        player2Points = player2.tossDice(dice)
-        print("Player: " + player2.getPlayerName() + " got " + str(player2Points) + " point(s)")
-        if (player2Points == 0):
-            print(player2.getPlayerName() + " lost")
-            break
-            
-        if playing is True:
-            choice = input("Do you want to continue? ")
-            if choice == "no":
-                playing = False
-printafasddadsada
+            print(player2.getPlayerName() + " you won!")
+            player2Plays = False
+        elif (player2Points != 0):
+            player2Points = player2.tossDice(dice)
+            print("Player: " + player2.getPlayerName() + " got " + str(player2Points) + " point(s)")
+
+            choice = input("Do you want to stay or toss? ")
+            if (choice == "toss"):
+                continue
+            else:
+                player2Plays = False
+
 
 if __name__ == '__main__':
     main()
