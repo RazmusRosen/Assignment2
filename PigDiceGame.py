@@ -54,18 +54,27 @@ class HighScore:
         else:
             with open(file, "w") as file:
                 file.write("High scores")
-    
+
     def postHighScore(self, player1Points, player2Points):
         highestScore = player1Points
         if (player2Points > highestScore):
             pass
+
+    def whoWon(self, player1, player2):
+        player1Score = player1.getPoints()
+        player2Score = player2.getPoints()
+
+        if (player1Score > player2Score):
+            return player1.getPlayerName() + " won!"
+        else:
+            return player2.getPlayerName() + " won!"
 
 
 def main():
     player1 = Player()
     player2 = Player()
     dice = Dice()
-    HighScore()
+    HighScoreManager = HighScore()
 
     player1Plays = True
     player2Plays = True
@@ -102,6 +111,9 @@ def main():
                 continue
             else:
                 player2Plays = False
+
+    result = HighScoreManager.whoWon(player1, player2)
+    print(result)
 
 
 if __name__ == '__main__':
