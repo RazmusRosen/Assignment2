@@ -55,18 +55,21 @@ class HighScore:
             with open(file, "w") as file:
                 file.write("High scores")
 
-    def postHighScore(self, player1Points, player2Points):
-        highestScore = player1Points
-        if (player2Points > highestScore):
-            pass
+    def postHighScore(self, winner):
+        winnersName = winner.getPlayerName()
+        points = winner.getPoints()
+        with open(self.file, "a") as file:
+            file.write(winnersName + " got " + str(points) + " points\n")
 
     def whoWon(self, player1, player2):
         player1Score = player1.getPoints()
         player2Score = player2.getPoints()
 
         if (player1Score > player2Score):
+            self.postHighScore(player1)
             return player1.getPlayerName() + " won!"
         else:
+            self.postHighScore(player2)
             return player2.getPlayerName() + " won!"
 
 
