@@ -56,10 +56,18 @@ class HighScore:
                 file.write("High scores")
 
     def postHighScore(self, winner):
+        highScoreDic = {}
+        with open(self.file, "r") as file:
+            file.read
+            for line in file:
+                name, points = line.split(":")
+                highScoreDic[name] = points
+                #Work in progress
+            
         winnersName = winner.getPlayerName()
         points = winner.getPoints()
         with open(self.file, "a") as file:
-            file.write(winnersName + " got " + str(points) + " points\n")
+            file.write(winnersName + ":" + str(points)+"\n")
 
     def whoWon(self, player1, player2):
         player1Score = player1.getPoints()
