@@ -56,18 +56,21 @@ class HighScore:
                 file.write("High scores")
 
     def postHighScore(self, winner):
-        highScoreDic = {}
-        with open(self.file, "r") as file:
-            file.read
-            for line in file:
-                name, points = line.split(":")
-                highScoreDic[name] = points
-                #Work in progress
-            
         winnersName = winner.getPlayerName()
         points = winner.getPoints()
         with open(self.file, "a") as file:
             file.write(winnersName + ":" + str(points)+"\n")
+        highScoreDic = {}
+        #pointsList = []
+        with open(self.file, "r") as file:
+            file.read
+            for line in file:
+                name, points = line.strip().split(":")
+                if name in highScoreDic:
+                    highScoreDic[name].append(points)
+                else:
+                    highScoreDic[name] = [points]
+            print(highScoreDic)
 
     def whoWon(self, player1, player2):
         player1Score = player1.getPoints()
@@ -76,9 +79,11 @@ class HighScore:
         if (player1Score > player2Score):
             self.postHighScore(player1)
             return player1.getPlayerName() + " won!"
-        else:
+        elif (player2Score > player1Score):
             self.postHighScore(player2)
             return player2.getPlayerName() + " won!"
+        else:
+            print()
 
 
 def main():
