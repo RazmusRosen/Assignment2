@@ -1,0 +1,12 @@
+Bob:6
+Bob:6
+Bob:5
+Raz:17
+Raz:19
+Raz:4
+Raz:7
+Raz:17
+Bob:4
+Bob:6
+Bob:3
+Bob:14
