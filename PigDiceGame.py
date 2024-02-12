@@ -62,23 +62,45 @@ class HighScore:
                     highScoreDic[name] = [points]
             print(highScoreDic)
 
-    def whoWon(self, player1, player2):
-        player1Score = player1.getPoints()
-        player2Score = player2.getPoints()
+    def whoWon(self, winner):
+        self.postHighScore(winner)
+        return winner.getPlayerName() + " won!"
 
-        if (player1Score > player2Score):
-            self.postHighScore(player1)
-            return player1.getPlayerName() + " won!"
-        elif (player2Score > player1Score):
-            self.postHighScore(player2)
-            return player2.getPlayerName() + " won!"
-        else:
-            print()
-            
 
 class Game:
-    def __init__(self) -> None:
-        pass
+    def __init__(self):
+        self.gameStatus = True
+
+    def endGame(self):
+        self.gameStatus = False
+
+    def getGameStatus(self):
+        return self.gameStatus
+
+    def gameIsOn(self, dice, player):
+        highscore = HighScore()
+        totalPoints = player.getPoints()
+        while (player.getPoints() < 100):
+            playerPoints = player.tossDice(dice)
+            if (playerPoints != 1):
+                totalPoints += playerPoints
+                print(player.getPlayerName() + " have " + str(totalPoints) + " point(s)")
+                if (totalPoints < 100):
+                    choice = input("Stay or toss: ")
+                    choice = choice.lower()
+                    if (choice == "toss"):
+                        continue
+                    else:
+                        player.setPoints(totalPoints)
+                        points = player.getPoints()
+                        print(player.getPlayerName() + " got " + str(points) + " point(s)\n")
+                        return False
+                elif (totalPoints >= 100):
+                    Game.endGame()
+                    highscore.whoWon(player)
+            elif (playerPoints == 1):
+                print(player.getPlayerName() + " have " + str(player.getPoints()) + " point(s)\n")
+                return False
 
 
 def main():
@@ -86,8 +108,17 @@ def main():
     player2 = Player()
     dice = Dice()
     HighScoreManager = HighScore()
+    game = Game()
+    while (game.gameStatus):
+        player1Plays = True
+        player2Plays = True
+        while (player1Plays):
+            player1Plays = game.gameIsOn(dice, player1)
+        while (player2Plays):
+            player2Plays = game.gameIsOn(dice, player2)
+    
 
-    player1Plays = True
+    """ player1Plays = True
     player2Plays = True
     player1Point = player1.getPoints()
     player2Point = player2.getPoints()
@@ -129,7 +160,7 @@ def main():
                 print(player2.getPlayerName() + " have " + str(player2.getPoints()) + " point(s)\n")
                 player2Plays = False
                 player1Plays = True
-
+ """
     result = HighScoreManager.whoWon(player1, player2)
     print(result)
 
